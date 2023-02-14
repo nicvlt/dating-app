@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View, ImageBackground } from 'react-native'
 import React, { useState } from 'react'
-import Button from './Button'
+import Button from '../components/Button'
 
-export default function Home() {
+export default function Home({ navigation }) {
 
     return(
         <View style={styles.container}>
