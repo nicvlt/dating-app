@@ -5,8 +5,7 @@ export default function Button({background, text, textColor, onPress}) {
     const [isPressed, setIsPressed] = useState(false)
 
     const handlePressOut = () => {
-        setIsPressed(false) 
-        onPress
+        setIsPressed(false)
     }
 
     const handlePressIn = () => {
@@ -16,9 +15,10 @@ export default function Button({background, text, textColor, onPress}) {
     return (
         <Pressable onPressIn={handlePressIn}
         onPressOut={handlePressOut}
+        onPress={onPress}
         style={[styles.container, {  transform: [{scale: isPressed ? 0.97 : 1}],
-            backgroundColor: background ? 'white' : null}]}>
-            <Text style={[styles.title, { color: textColor}]}>{text}</Text>
+            backgroundColor: background ? '#e84c5c' : null}]}>
+            <Text style={[styles.title, { color: background ? 'white' : '#e84c5c'}]}>{text}</Text>
         </Pressable>
     )
 }
@@ -26,14 +26,17 @@ export default function Button({background, text, textColor, onPress}) {
 const styles = StyleSheet.create({
     container:{
         padding: 7,
-        borderRadius: 100,
+        borderRadius: 12,
         paddingHorizontal:40,
-        borderWidth: 1.5,
-        borderColor: 'white',
+        paddingVertical:10,
+        borderWidth: 2,
+        borderColor: '#e84c5c',
         margin: 20,
+
     },
     title:{
         fontSize: 17,
         textAlign: 'center',
+        fontWeight: 'bold',
     }
 })

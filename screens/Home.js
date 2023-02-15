@@ -1,29 +1,28 @@
 import { StyleSheet, Text, View, ImageBackground } from 'react-native'
 import React, { useState } from 'react'
 import Button from '../components/Button'
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function Home({ navigation }) {
 
     return(
         <View style={styles.container}>
-            <ImageBackground style={styles.image} 
-            source={require('../assets/affectionate-couple.jpg')}>
-                <View style={styles.darken}>
-                    <View style={styles.titleContainer}>
-                        <Text style={styles.title}>
-                            Lorem Ipsum
-                        </Text>
-                        <Text style={styles.subtitle}>
-                            Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit
-                        </Text>
-                    </View>
-                    <View style={styles.buttonContainer}>
-                        <Button text="Log In" background={false} textColor={'white'}/>
-                        <Button text="Sign Up" background={true} textColor={'black'}/>
-                    </View>
-                </View>
-            </ImageBackground>
-
+            <View style={styles.iconContainer}>
+                <Icon name={'people'} size={160} color={'#e84c5c'}/>
+            </View>
+            <View style={styles.titleContainer}>
+                <Text style={styles.title}>
+                    Lorem Ipsum
+                </Text>
+                <Text style={styles.subtitle}>
+                    Neque porro quisquam est qui dolorem
+                </Text>
+            </View>
+            <View style={styles.buttonContainer}>
+                <Button text="Log In" background={false} 
+                onPress={() => {navigation.navigate('Login')}}/>
+                <Button text="Sign Up" background={true}/>
+            </View>
         </View>
     )
 }
@@ -31,37 +30,33 @@ export default function Home({ navigation }) {
 const styles = StyleSheet.create({
     container:{
         flex: 1,
-    },
-    image:{
-        flex: 1,
-        width: null,
-        height: null,
-        resizeMode: 'cover',
-    },
-    darken:{
-        flex: 1,
-        backgroundColor: 'rgba(0,0,0,0.15)',
-        justifyContent: 'center',
+        backgroundColor: '#f3f2f2',
         alignItems: 'center',
+        justifyContent: 'center',
+    },
+    iconContainer:{
+        
     },
     titleContainer:{
-        marginTop:'25%',
+        marginTop:'38%',
         width: '90%',
         alignItems: 'center',
+        color: '#171417',
     },
     title:{
         width: '85%',
-        fontSize: 39,
-        fontWeight: 'bold',
-        color: 'white',
+        fontSize: 44,
+        fontWeight: '800',
         marginBottom:12,
+        textAlign:'center',
     },
     subtitle:{
         width: '85%',
         fontSize: 17,
-        color: 'white',
-        fontWeight:'400',
+        fontWeight:'500',
         textAlign:'justify',
+        textAlign:'center',
+        color:'#666666'
     },
     buttonContainer:{
         position: 'absolute',
