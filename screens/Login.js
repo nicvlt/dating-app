@@ -11,7 +11,7 @@ export default function Login({navigation}) {
 
 
     return(
-        <ScrollView style={styles.main} softwareKeyboardLayoutMode={'pan'}>
+        <ScrollView style={styles.main} softwareKeyboardLayoutMode={'pan'} scrollEnabled={false}>
             <View style={styles.container}>
                 <Icon name={'people'} size={140} color={'#e84c5c'}/>
                 <Text style={styles.title}>Welcome back!</Text>

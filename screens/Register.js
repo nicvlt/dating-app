@@ -16,7 +16,7 @@ export default function Login({navigation}) {
                 <Text style={styles.title}>Find perfection!</Text>
                 <Textinput placeholder={"Email"} />
                 <Textinput placeholder={"Password"} />  
-                <Button text={'Create account'} background={true}/> 
+                <Button text={'Create account'} background={true} onPress={() => {navigation.navigate('Main')}}/> 
                 
             </View>
             <View style={styles.textContainer}>

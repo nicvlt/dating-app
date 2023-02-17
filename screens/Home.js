@@ -21,7 +21,8 @@ export default function Home({ navigation }) {
             <View style={styles.buttonContainer}>
                 <Button text="Log In" background={false} 
                 onPress={() => {navigation.navigate('Login')}}/>
-                <Button text="Sign Up" background={true}/>
+                <Button text="Sign Up" background={true}
+                onPress={() => {navigation.navigate('Register')}}/>
             </View>
         </View>
     )

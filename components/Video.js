@@ -2,6 +2,8 @@ import React from 'react'
 import { Text, View, Dimensions, StyleSheet } from 'react-native'
 
 const screenSize = Dimensions.get('screen').height
+const color = Math.floor(Math.random() * 16777215).toString(16);
+
 
 export default function Video({item}){
     return(
@@ -16,5 +18,6 @@ const styles = StyleSheet.create({
         height:screenSize,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: `#${color}`,
     },
 })
