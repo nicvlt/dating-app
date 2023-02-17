@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import Home from './screens/Home'
 import Login from './screens/Login'
 import Register from './screens/Register'
+import Main from './screens/Main'
 import {NavigationContainer} from '@react-navigation/native'
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
 
@@ -24,6 +25,11 @@ export default function App() {
         <Stack.Screen
           name="Register"
           component={Register}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name="Main"
+          component={Main}
           options={{ header: () => null }}
         />
       </Stack.Navigator>

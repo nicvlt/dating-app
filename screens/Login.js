@@ -17,7 +17,7 @@ export default function Login({navigation}) {
                 <Text style={styles.title}>Welcome back!</Text>
                 <Textinput placeholder={"Email"} />
                 <Textinput placeholder={"Password"} />  
-                <Button text={'Log into account'} background={true}/> 
+                <Button text={'Log into account'} background={true} onPress={() => {navigation.navigate('Main')}}/> 
                 
             </View>
             <View style={styles.textContainer}>
