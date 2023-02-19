@@ -3,25 +3,44 @@ import { StyleSheet, View, ScrollView, Text, Dimensions } from 'react-native'
 import Textinput from '../components/Textinput'
 import Button from '../components/Button'
 import Icon from 'react-native-vector-icons/Ionicons';
+import { createUserWithEmailAndPassword } from "firebase/auth"
+import { auth } from '../scripts/firebase'
 
-const windowHeight = Dimensions.get('window').height
+const windowHeight = Dimensions.get('window').height 
 
 export default function Login({navigation}) {
-  
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
+    const handleRegister = () => {
+        console.log(email, password)
+        
+        createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            // Signed in 
+            const user = userCredential.user;
+            navigation.navigate('Main')
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(errorCode, errorMessage)
+        });
+    }
 
     return(
-        <ScrollView style={styles.main} softwareKeyboardLayoutMode={'pan'}>
+        <ScrollView style={styles.main} softwareKeyboardLayoutMode={'pan'} scrollEnabled={false}>
             <View style={styles.container}>
                 <Icon name={'people'} size={140} color={'#e84c5c'}/>
                 <Text style={styles.title}>Find perfection!</Text>
-                <Textinput placeholder={"Email"} />
-                <Textinput placeholder={"Password"} />  
-                <Button text={'Create account'} background={true} onPress={() => {navigation.navigate('Main')}}/> 
+                <Textinput placeholder={"Email"} setter={setEmail}/>
+                <Textinput placeholder={"Password"} setter={setPassword}/>  
+                <Button text={'Create account'} background={true} onPress={handleRegister}/> 
                 
             </View>
             <View style={styles.textContainer}>
                     <Text style={styles.message}>Already have an account ?</Text>
-                    <Text onPress={() => {navigation.navigate('Login')}} style={styles.register}> Log in!</Text>
+                    <Text onPress={() => {navigation.navigate('Login')}} style={styles.register}> Log in !</Text>
             </View>
         </ScrollView>
     )

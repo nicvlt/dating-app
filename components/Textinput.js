@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet, TextInput } from 'react-native';
 
-export default function Textinput({placeholder}) {
+export default function Textinput({placeholder, setter}) {
   const [isFocused, setIsFocused] = React.useState(false)
   const [hasContent, setHasContent] = React.useState(false)
 
@@ -18,9 +18,14 @@ export default function Textinput({placeholder}) {
     else setHasContent(true)
   }
 
+  const handleSetterChange = (value) => {
+    setter(value)
+  }
   return (
     <View style={styles.container}>
-      <TextInput  onFocus={handleOnFocus} onBlur={handleOnBlur} onChangeText={handleHasContent} numberOfLines={1} 
+      <TextInput  onFocus={handleOnFocus} onBlur={handleOnBlur} 
+      onChangeText={handleSetterChange}
+      onChange={handleHasContent} numberOfLines={1} 
       style={[styles.textinput, { backgroundColor: isFocused ? '#fefefe' : 'white'}]}/>
       <Text accessible={true} style={[styles.placeholder, {top: (isFocused || hasContent) ? 8:null}]}> {placeholder} </Text>
     </View>
