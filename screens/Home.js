@@ -1,18 +1,17 @@
-import { StyleSheet, Text, View, ImageBackground } from 'react-native'
+import { StyleSheet, Text, View, Image } from 'react-native'
 import React, { useState } from 'react'
 import Button from '../components/Button'
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/Ionicons'
+
 
 export default function Home({ navigation }) {
 
     return(
         <View style={styles.container}>
-            <View style={styles.iconContainer}>
-                <Icon name={'people'} size={160} color={'#e84c5c'}/>
-            </View>
+                <Image style={styles.logo} source={require('../assets/logo.png')}></Image>
             <View style={styles.titleContainer}>
                 <Text style={styles.title}>
-                    Lorem Ipsum
+                    Be Vre
                 </Text>
                 <Text style={styles.subtitle}>
                     Neque porro quisquam est qui dolorem
@@ -35,14 +34,20 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    iconContainer:{
+    logo:{
+        userSelect: 'none',
+        height: 300,
+        resizeMode: 'contain',
+        width: 300,
+        marginLeft:30,
+        marginBottom:'20%'
         
     },
     titleContainer:{
-        marginTop:'38%',
         width: '90%',
         alignItems: 'center',
         color: '#171417',
+        marginBottom:'20%'
     },
     title:{
         width: '85%',
@@ -61,7 +66,7 @@ const styles = StyleSheet.create({
     },
     buttonContainer:{
         position: 'absolute',
-        bottom: 50,
+        bottom: 80,
         flexDirection: 'row',
     }
 })

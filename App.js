@@ -1,4 +1,3 @@
-import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import Home from './screens/Home'
 import Login from './screens/Login'
@@ -11,9 +10,7 @@ const Stack = createNativeStackNavigator()
 
 export default function App() {
 
-  React.useEffect(() => {
-    console.log(process.env.apiKey)
-  }, [])
+
   return (
       <NavigationContainer>
       <Stack.Navigator initialRouteName='Home'>

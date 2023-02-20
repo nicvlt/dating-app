@@ -28,7 +28,6 @@ export default function InfiniteScroll(){
             renderItem={Video}
             keyExtractor={item => item.id}
             snapToInterval={screenSize}
-            decelerationRate='normal'
             showsVerticalScrollIndicator={false}
             onEndReached={handleEndReached}
             onEndReachedThreshold={0.5}
