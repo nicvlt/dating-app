@@ -1,51 +1,76 @@
 import React, { useState } from 'react'
-import { StyleSheet, View, ScrollView, Text, Dimensions, TextInput } from 'react-native'
+import { StyleSheet, View, ScrollView, Text, Dimensions, Image } from 'react-native'
 import Textinput from '../components/Textinput'
 import Button from '../components/Button'
-import Icon from 'react-native-vector-icons/Ionicons';
-import {firebase} from '../Firebase/firebase';
+import { createUserWithEmailAndPassword } from "firebase/auth"
+import { auth } from '../scripts/firebase'
+import Toast from 'react-native-toast-message'
 
-const windowHeight = Dimensions.get('window').height
+const windowHeight = Dimensions.get('window').height 
 
-export default function Login({navigation}) {
+export default function Register({navigation}) {
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [error, setError] = useState('')
 
-    var [email, setEmail] = useState('');
-    var [password, setPassword] = useState('');
-    var [confPassword, setConfPassword] = useState('');
-
-    function sendEmail(email) {console.log(email);}
-    function sendPass(password) {console.log(password);}
-    function sendConfPass(confPassword) {console.log(confPassword);}
-    
-    function createUser(){
-        firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then(() => {
+    const handleShowToast = () => {
+        Toast.show({
+            type: 'error',
+            position: 'top',
+            text1: 'Error',
+            text2: error,
+            visibilityTime: 4000,
+            autoHide: true,
+            topOffset: 50,
         })
     }
 
+    const handleRegister = () => {
+        console.log(email, password)
+        
+        createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            // Signed in 
+            const user = userCredential.user;
+            navigation.navigate('Main');
+        })
+        .catch((e) => {
+            const errorCode = e.code;
+            const errorMessage = e.message;
+            console.log(errorCode, errorMessage)
+            switch(errorCode){
+                case 'auth/invalid-email':
+                    setError('Please enter a valid email')
+                    break;
+                case 'auth/weak-password':
+                    setError('Password must be at least 6 characters')
+                    break;
+                case 'auth/email-already-in-use':
+                    setError('Email already in use')
+                    break;
+                
+                default:
+                    setError('Please enter a valid email and password')
+            }
+            handleShowToast()
+        });
+    }
+
     return(
-        <ScrollView style={styles.main} softwareKeyboardLayoutMode={'pan'}>
+        <ScrollView style={styles.main} softwareKeyboardLayoutMode={'pan'} scrollEnabled={false}>
             <View style={styles.container}>
-                <Icon name={'people'} size={140} color={'#e84c5c'}/>
-                <Text style={styles.title}>Find perfection!</Text>
-                <Textinput value={email} setter={setEmail}  placeholder={"Email"} />
-                <Textinput value={password} setter={setPassword}  placeholder={"Password"} />
-                <Textinput value={confPassword} setter={setConfPassword} placeholder={"Confirm Password"} />  
-                <Button text={'Create account'} background={true} 
-                onPress={() => {
-                        sendEmail(email);
-                        sendPass(password);
-                        sendConfPass(confPassword);
-                        createUser();
-                        navigation.navigate('Main');
-                    }}
-                /> 
+                <Image style={styles.logo} source={require('../assets/logo.png')}></Image>
+                <Text style={styles.title}>Find perfection !</Text>
+                <Textinput placeholder={"Email"} setter={setEmail}/>
+                <Textinput placeholder={"Password"} setter={setPassword} isPassword/>  
+                <Button text={'Create account'} background={true} onPress={handleRegister}/> 
                 
             </View>
             <View style={styles.textContainer}>
                     <Text style={styles.message}>Already have an account ?</Text>
-                    <Text onPress={() => {navigation.navigate('Login')}} style={styles.register}> Log in!</Text>
+                    <Text onPress={() => {navigation.navigate('Login')}} style={styles.register}> Log in !</Text>
             </View>
+            <Toast/>
         </ScrollView>
     )
 }
@@ -57,15 +82,26 @@ const styles = StyleSheet.create({
     container:{
         alignItems: 'center',
         height: windowHeight,
-        top: '10%',
+        top: '15%',
+    },
+    logo:{
+        top:-70,
+        position: 'absolute',
+        userSelect: 'none',
+        height: 250,
+        resizeMode: 'contain',
+        width: 250,
+        marginBottom:'20%',
+    
     },
     title:{
         fontSize: 35,
-        fontWeight: '800',
+        fontWeight: '600',
         color: '#171417',
-        marginTop: '4%',
+        marginTop: '40%',
         marginBottom: '2%',
         padding:25,
+        letterSpacing:1,
     },
     textContainer:{
         flexDirection: 'row',
@@ -81,17 +117,5 @@ const styles = StyleSheet.create({
         fontSize: 17,
         fontWeight: '500',
         color: '#e84c5c',
-    },
-    input:{
-        height:68,
-        width:'100%',
-        borderRadius:15,
-        color:'black',
-        paddingTop:18,
-        paddingBottom:4,
-        paddingHorizontal:20,
-        pointerEvents: 'auto',
-        fontSize: 17,
-        fontWeight: '500',
     }
 })

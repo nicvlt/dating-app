@@ -8,4 +8,3 @@ export default function Main({navigation}){
         <InfiniteScroll/>  
     )
 }
-
