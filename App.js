@@ -3,6 +3,7 @@ import Home from './screens/Home'
 import Login from './screens/Login'
 import Register from './screens/Register'
 import Main from './screens/Main'
+import NamePicture from './screens/NamePicture'
 import {NavigationContainer} from '@react-navigation/native'
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
 
@@ -13,7 +14,7 @@ export default function App() {
 
   return (
       <NavigationContainer>
-      <Stack.Navigator initialRouteName='Home'>
+      <Stack.Navigator initialRouteName='NamePicture'>
         <Stack.Screen
           name="Home"
           component={Home}
@@ -32,6 +33,11 @@ export default function App() {
         <Stack.Screen
           name="Main"
           component={Main}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name="NamePicture"
+          component={NamePicture}
           options={{ header: () => null }}
         />
       </Stack.Navigator>

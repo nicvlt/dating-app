@@ -30,7 +30,7 @@ export default function Textinput({placeholder, setter, isPassword}) {
       secureTextEntry={isPassword}
       cursorColor={'#777777'}
       style={[styles.textinput, { backgroundColor: isFocused ? '#fefefe' : 'white'}]}/>
-      <Text accessible={true} style={[styles.placeholder, {top: (isFocused || hasContent) ? 8:null}]}> {placeholder} </Text>
+      <Text accessible={true} onClick={handleOnFocus} style={[styles.placeholder, {top: (isFocused || hasContent) ? 8:null}]}> {placeholder} </Text>
     </View>
   );
 }

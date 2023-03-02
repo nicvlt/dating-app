@@ -22,4 +22,4 @@ const auth = getAuth(app)
 const storage = getStorage(app)
 const storageRef = ref(storage)
 
-export { auth, storageRef };
+export { auth, storageRef }

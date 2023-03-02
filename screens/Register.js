@@ -32,7 +32,7 @@ export default function Login({navigation}) {
         .then((userCredential) => {
             // Signed in 
             const user = userCredential.user;
-            navigation.navigate('Main')
+            navigation.navigate('NamePicture')
         })
         .catch((e) => {
             const errorCode = e.code;
