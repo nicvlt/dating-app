@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { StyleSheet, FlatList, SafeAreaView, Dimensions} from 'react-native'
+import { StyleSheet, FlatList, SafeAreaView, Dimensions, StatusBar} from 'react-native'
 import Video from '../components/Video'
 
 export default function InfiniteScroll(){
 
-    const screenSize = Dimensions.get('screen').height
+    const screenSize = Dimensions.get('screen').height - StatusBar.currentHeight
     const [data, setData] = useState([{id: '1', text: 'Video 1'}, {id: '2', text: 'Video 2'}])
     const [counter, setCounter] = useState(3)
 

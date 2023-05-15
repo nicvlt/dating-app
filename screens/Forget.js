@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, View, ScrollView, Text, Dimensions, Image } from 'react-native'
+import { StyleSheet, View, ScrollView, Text, Dimensions, Image, StatusBar } from 'react-native'
 import Textinput from '../components/Textinput'
 import Button from '../components/Button'
 import { sendPasswordResetEmail, fetchSignInMethodsForEmail } from "firebase/auth"
@@ -78,16 +78,16 @@ export default function Forget({navigation}) {
 
     return(
         <ScrollView style={styles.main} softwareKeyboardLayoutMode={'pan'} scrollEnabled={false}>
+            <StatusBar style={styles.status}></StatusBar>
             <View style={styles.container}>
-                <Image style={styles.logo} source={require('../assets/logo.png')}></Image>
-                <Text style={styles.title}>Password forgotten ?</Text>
+                <Text numberOfLines={2} style={styles.title}>Reset your password</Text>
                 <Textinput placeholder={"Email"} setter={setEmail}/>
                 <Button text={'Change password'} background={true} onPress={handleChangePass}/> 
                 
             </View>
             <View style={styles.textContainer}>
                 <Text style={styles.message}>Don't have an account ?</Text>
-                <Text onPress={() => {navigation.navigate('Register')}} style={styles.register}> Register !</Text>
+                <Text onPress={() => {navigation.navigate('RegisterEmail')}} style={styles.register}> Register !</Text>
             </View>
             <View style={styles.textContainer}>
                     <Text style={styles.message}>Already have an account ?</Text>
@@ -104,33 +104,28 @@ const styles = StyleSheet.create({
     },
     container:{
         alignItems: 'center',
-        height: windowHeight,
-        top: '15%',
+        width: '100%',
+        windowHeight: windowHeight,
     },
-    logo:{
-        top:-70,
+    status:{
+        backgroundColor: 'black',
+        height: StatusBar.currentHeight,
+        width: '100%',
         position: 'absolute',
-        userSelect: 'none',
-        height: 250,
-        resizeMode: 'contain',
-        width: 250,
-        marginBottom:'20%',
-        
     },
     title:{
-        fontSize: 35,
-        fontWeight: '600',
+        fontSize: 50,
+        fontWeight: '400',
         color: '#171417',
-        marginTop: '40%',
-        marginBottom: '2%',
+        marginTop: '30%',
         padding:25,
         letterSpacing:1,
+        width: '86%',
     },
     textContainer:{
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        top: -50,
     },
     message:{
         fontSize: 17,

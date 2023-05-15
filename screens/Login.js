@@ -1,40 +1,61 @@
 import React, {useState} from 'react'
-import { StyleSheet, View, ScrollView, Text, Dimensions, Image } from 'react-native'
+import { StyleSheet, View, ScrollView, Text, Dimensions, StatusBar } from 'react-native'
 import Textinput from '../components/Textinput'
 import Button from '../components/Button'
 import { signInWithEmailAndPassword } from "firebase/auth"
-import { auth } from '../scripts/firebase'
+import {auth, db } from '../scripts/firebase'
 import Toast from 'react-native-toast-message'
+import { doc, getDoc } from "firebase/firestore"; 
+
 
 const windowHeight = Dimensions.get('window').height
 
 export default function Login({navigation}) {
+    
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [error, setError] = useState('');
 
     const handleShowToast = () => {
         Toast.show({
             type: 'error',
             position: 'top',
             text1: 'Error',
-            text2: 'Wrong email or password',
+            text2: error,
             visibilityTime: 4000,
             autoHide: true,
-            topOffset: 50,
+            topOffset: 10,
         })
     }
   
     const handleLogin = () => {
         signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
+        .then(async (userCredential) => {
             // Signed in 
             const user = userCredential.user;
-            navigation.navigate('Main')
+            const isVerified = user.emailVerified;
+            if(!isVerified){
+                setError("Please verify your email")
+                handleShowToast()
+                return
+            }
+            else {
+                const docRef = doc(db, "users", email);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    navigation.navigate("Main", {email: email, uuid: auth.currentUser.uid })
+                } 
+                else {
+                    navigation.navigate("RegisterName", {email: email, uuid: auth.currentUser.uid })
+                }
+            }
         })
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
             console.log(errorCode, errorMessage)
+            setError("Wrong email or password")
             handleShowToast()
         })
     }
@@ -50,22 +71,18 @@ export default function Login({navigation}) {
 
     return(
         <ScrollView style={styles.main} softwareKeyboardLayoutMode={'pan'} scrollEnabled={false}>
+            <StatusBar style={styles.status}/>
             <View style={styles.container}>
-                <Image style={styles.logo} source={require('../assets/logo.png')}></Image>
                 <Text style={styles.title}>Welcome back !</Text>
                 <Textinput placeholder={"Email"} setter={setEmail}/>
-                <Textinput placeholder={"Password"} setter={setPassword} isPassword/>  
-                <Button text={'Log into account'} background={true} onPress={handleLogin}/> 
-                
-            </View>
-                <View style={styles.textContainer}>
-                    <Text style={styles.message}>Don't have an account ?</Text>
-                    <Text onPress={() => {navigation.navigate('Register')}} style={styles.register}> Register !</Text>
-                </View>
+                <Textinput placeholder={"Password"} setter={setPassword} isPassword/>
                 <View style={styles.textContainer}>
                     <Text style={styles.message}>Forget password ?</Text>
                     <Text onPress={() => {navigation.navigate('Forget')}} style={styles.register}> Reset password</Text>
-                </View>
+
+                </View>  
+                <Button text={'Log into account'} background={true} onPress={handleLogin}/>        
+            </View>
             <Toast/>
         </ScrollView>
     )
@@ -77,33 +94,29 @@ const styles = StyleSheet.create({
     },
     container:{
         alignItems: 'center',
-        height: windowHeight,
-        top: '15%',
+        width: '100%',
+        windowHeight: windowHeight,
     },
-    logo:{
-        top:-70,
+    status:{
+        backgroundColor: 'black',
+        height: StatusBar.currentHeight,
+        width: '100%',
         position: 'absolute',
-        userSelect: 'none',
-        height: 250,
-        resizeMode: 'contain',
-        width: 250,
-        marginBottom:'20%',
-        
     },
     title:{
-        fontSize: 35,
-        fontWeight: '600',
+        fontSize: 55,
+        fontWeight: '400',
         color: '#171417',
-        marginTop: '40%',
-        marginBottom: '2%',
+        marginTop: '10%',
         padding:25,
         letterSpacing:1,
+        width: '86%',
     },
     textContainer:{
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        top: -50,
+        marginTop:'20%',
     },
     message:{
         fontSize: 17,
