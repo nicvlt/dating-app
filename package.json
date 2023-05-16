@@ -12,15 +12,16 @@
     "@react-navigation/native": "^6.1.4",
     "@react-navigation/native-stack": "^6.9.10",
     "expo": "~47.0.12",
+    "expo-cli": "^6.3.7",
+    "expo-image-manipulator": "~11.0.0",
     "expo-image-picker": "~14.0.2",
     "expo-status-bar": "~1.4.2",
-    "firebase": "^9.17.1",
+    "firebase": "^9.22.0",
     "react": "18.1.0",
-    "react-native": "0.70.5",
+    "react-native": "0.70.8",
     "react-native-dotenv": "^3.4.7",
     "react-native-toast-message": "^2.1.5",
-    "react-native-vector-icons": "^9.2.0",
-    "expo-image-manipulator": "~11.0.0"
+    "react-native-vector-icons": "^9.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
