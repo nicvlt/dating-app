@@ -1,21 +1,8 @@
 import React, { useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Video } from 'expo-av'
-import { storage } from '../scripts/firebase'
-import { getDownloadURL, ref } from 'firebase/storage'
-import { IonIcons } from '@expo/vector-icons'
 
-export default function InfiniteScroll(){
-    const [matchEmail, setMatchEmail] = useState(['test@test.fr'])
-    const [uri, setUri] = useState(null)
-
-    React.useEffect(() => {
-        getDownloadURL(ref(storage, `videos/${matchEmail[0]}.mp4`))
-        .then(url => {
-            setUri(url)
-        })
-    },[])
-
+export default function InfiniteScroll({ uri }){
     return(
         <View style={styles.container}>
             <Video
