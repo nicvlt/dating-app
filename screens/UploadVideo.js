@@ -34,7 +34,11 @@ export default function UploadVideo({ navigation }){
         fetch(video)
         .then(res => res.blob())
         .then(blob => uploadBytes(toUploadRef, blob))
-        navigation.navigate('Main')
+        .then(() => {
+            setVideo(null)
+            navigation.navigate('Main')
+        })
+        
     }
 
     const handleCancel = () => {
@@ -59,7 +63,7 @@ export default function UploadVideo({ navigation }){
                         ref={videoRef}
                         source={{ uri: video }}
                         style={{ width: "100%", height: "100%" }}
-                        resizeMode="contain"
+                        resizeMode="cover"
                         isLooping
                         shouldPlay
                     />

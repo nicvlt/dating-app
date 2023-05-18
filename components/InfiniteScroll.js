@@ -1,40 +1,33 @@
 import React, { useState } from 'react'
-import { StyleSheet, FlatList, SafeAreaView, Dimensions} from 'react-native'
-import Video from '../components/Video'
+import { StyleSheet, View } from 'react-native'
+import { Video } from 'expo-av'
+import { storage } from '../scripts/firebase'
+import { getDownloadURL, ref } from 'firebase/storage'
+import { IonIcons } from '@expo/vector-icons'
 
 export default function InfiniteScroll(){
+    const [matchEmail, setMatchEmail] = useState(['test@test.fr'])
+    const [uri, setUri] = useState(null)
 
-    const screenSize = Dimensions.get('screen').height
-    const [data, setData] = useState([{id: '1', text: 'Video 1'}, {id: '2', text: 'Video 2'}])
-    const [counter, setCounter] = useState(3)
-
-    const handleEndReached = () => {
-        setCounter(counter + 1)
-        const newData = [...data, {id: `${counter}`, text: `Video ${counter}`}]
-        setData(newData)
-    }
-
-    const handleRefresh = () => {
-        setData([{id: '1', text: 'Video 1'}, {id: '2', text: 'Video 2'}])
-        setCounter(3)
-    }
+    React.useEffect(() => {
+        getDownloadURL(ref(storage, `videos/${matchEmail[0]}.mp4`))
+        .then(url => {
+            setUri(url)
+        })
+    },[])
 
     return(
-        <SafeAreaView style={styles.container}>
-            <FlatList
-            disableIntervalMomentum
-            contentContainerStyle={styles.list}
-            data={data}
-            renderItem={Video}
-            keyExtractor={item => item.id}
-            snapToInterval={screenSize}
-            showsVerticalScrollIndicator={false}
-            onEndReached={handleEndReached}
-            onEndReachedThreshold={0.5}
-            refreshing={false}
-            onRefresh={handleRefresh}
-        />
-        </SafeAreaView>
+        <View style={styles.container}>
+            <Video
+                source={{
+                    uri: uri
+                }}
+                style={{ width: "100%", height: "100%", justifyContent: 'center', alignItems: 'center'}}
+                resizeMode="cover"
+                isLooping
+                shouldPlay
+            />
+        </View>
     )
 }
 
@@ -42,11 +35,8 @@ export default function InfiniteScroll(){
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#f3f2f2',
         justifyContent: 'center',
-    },
-    list: {
-        justifyContent: 'center',
-        alignItems: 'center',
+        width: '100%',
     },
 })
