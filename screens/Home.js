@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
 import React, { useState } from 'react'
 import Button from '../components/Button'
-import Icon from 'react-native-vector-icons/Ionicons'
 
 
 export default function Home({ navigation }) {

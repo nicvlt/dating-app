@@ -6,15 +6,14 @@ import Main from './screens/Main'
 import NamePicture from './screens/NamePicture'
 import {NavigationContainer} from '@react-navigation/native'
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
+import UploadVideo from './screens/UploadVideo'
 
 const Stack = createNativeStackNavigator()
 
 export default function App() {
-
-
   return (
       <NavigationContainer>
-      <Stack.Navigator initialRouteName='NamePicture'>
+      <Stack.Navigator initialRouteName='Home'>
         <Stack.Screen
           name="Home"
           component={Home}
@@ -38,6 +37,11 @@ export default function App() {
         <Stack.Screen
           name="NamePicture"
           component={NamePicture}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name="UploadVideo"
+          component={UploadVideo}
           options={{ header: () => null }}
         />
       </Stack.Navigator>
