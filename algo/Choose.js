@@ -3,9 +3,9 @@
     import { auth } from 'firebase';
     const userCurrent = auth.currentUser;
     const userId = auth.currentUser.uid;
-
+    
 // We retrieve the data to form an array with the criteria: age, sexe, smoker
-    import { db } from 'firebase'; // Import the Firebase database module
+    import { db } from 'firebase';
 
     // Retrieve the user document from the database
     const userRef = db.collection('users').doc(userCurrent);
@@ -66,10 +66,12 @@
     console.log(similarityScores); // Output the users sorted by similarity score
 
     // Function to calculate similarity score between preferences
-    // For the moment i don't take into account the elo
+    // with the elo
+    const UserElo = userDoc.data().elo;
+
     function calculateSimilarityScore(preferences1, preferences2) {
         const commonPreferences = preferences1.filter((preference) => preferences2.includes(preference));
         const similarityScore = commonPreferences.length;
-        return similarityScore;
+        return similarityScore*UserElo;
     }
       
