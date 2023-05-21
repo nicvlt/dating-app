@@ -79,7 +79,11 @@ export default function RegisterEmail({navigation}, props) {
                 <Text style={styles.title}>Email Address</Text>
                 <Textinput placeholder={"Email"} setter={setEmail}/>
                 <Textinput placeholder={"Password"} setter={setPassword} isPassword/>  
-                <Textinput placeholder={"Confirm password"} setter={setConfirmPassword} isPassword/>  
+                <Textinput placeholder={"Confirm password"} setter={setConfirmPassword} isPassword/>
+                <View style={styles.textContainer}>
+                    <Text style={styles.message}>Already have an account ?</Text>
+                    <Text onPress={() => {navigation.navigate('Login')}} style={styles.register}> Log in !</Text>
+                </View>
                 <Button text={'Next'} background={true} onPress={handleRegister}/> 
             </View>
             <Toast/>
@@ -96,6 +100,18 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
     },
+    progressionBar:{
+        backgroundColor: '#CCCCCC',
+        height: 8,
+        width: '100%',
+        position: 'absolute',
+    },
+    progressionBarFull:{
+        backgroundColor: '#e84c5c',
+        height: 8,
+        width: '12%',
+        position: 'absolute',
+    },
     title:{
         fontSize: 55,
         fontWeight: '400',
@@ -111,16 +127,20 @@ const styles = StyleSheet.create({
         width: '100%',
         position: 'absolute',
     },
-    progressionBar:{
-        backgroundColor: '#CCCCCC',
-        height: 8,
-        width: '100%',
-        position: 'absolute',
+    textContainer:{
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        width: '75%',
+        marginBottom: 10,
     },
-    progressionBarFull:{
-        backgroundColor: '#e84c5c',
-        height: 8,
-        width: '14%',
-        position: 'absolute',
+    message:{
+        fontSize: 12,
+        fontWeight: '500',
+        color: '#666666',
+    },
+    register:{
+        fontSize: 12,
+        fontWeight: '500',
+        color: '#e84c5c',
     },
 })

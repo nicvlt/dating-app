@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     progressionBarFull:{
         backgroundColor: '#e84c5c',
         height: 8,
-        width: '28%',
+        width: '24%',
         position: 'absolute',
     },
 })

@@ -1,18 +1,16 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View, Image, ScrollView, Pressable, StatusBar, Dimensions} from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
-import { manipulateAsync } from 'expo-image-manipulator'
 import { Ionicons } from '@expo/vector-icons';
 import Button from '../components/Button'
 import Toast from 'react-native-toast-message'
 import { useRoute } from '@react-navigation/native';
-import { doc, setDoc } from "firebase/firestore";
-import { storagePP, ref, db } from '../scripts/firebase'
+import { storagePP, ref } from '../scripts/firebase'
 import { uploadBytes } from "firebase/storage";
 import { decode } from 'base-64';
 
-if(typeof atob === 'undefined') {
-  global.atob = decode;
+if (typeof atob === 'undefined') {
+    global.atob = decode;
 }
 
 
@@ -40,14 +38,12 @@ export default function RegisterPicture({ navigation }) {
     }
 
     const uploadImage = async () => {
-        const imageRef = ref(storagePP, uuid +'.'+ type)
+        const imageRef = ref(storagePP, email)
 
         const imgBytes = await fetch(imageUri)
         const imgBlob = await imgBytes.blob()
 
-        await uploadBytes(imageRef, imgBlob).then((snapshot) => {
-            console.log('Uploaded profile picture');
-        });
+        await uploadBytes(imageRef, imgBlob);
     }
 
 
@@ -63,17 +59,6 @@ export default function RegisterPicture({ navigation }) {
         })
     }
 
-    const handleShowToastSuccess = () => {
-        Toast.show({
-            type: 'success',
-            position: 'top',
-            text1: 'Success',
-            text2: 'Your account has been created',
-            visibilityTime: 4000,
-            autoHide: true,
-            topOffset: 10,
-        })
-    }
 
     
     const findTypeImage = (str) => {
@@ -85,42 +70,24 @@ export default function RegisterPicture({ navigation }) {
 
     const handleConfirm = async () => {
         if (image === null) {
-            handleShowToastSuccess()
-            await setDoc(doc(db, "users", email), {
-                birthdate: date,
-                name: name,
-                gender: gender, 
-                orientation: orientation,
-                interest: interest,
-                age: age,
-                type: type,
-                email: email,
-            });
-            setTimeout(() => {
-                navigation.navigate('Home')
-            }, 3000)
+            setError('Please upload a profile picture')
+            handleShowToastError()
         }
         else {
             try {
                 uploadImage()
-                handleShowToastSuccess()
-                await setDoc(doc(db, "users", email), {
-                    birthdate: date,
-                    name: name,
-                    gender: gender, 
-                    orientation: orientation,
-                    interest: interest,
-                    age: age,
-                    type: type,
-                });
-                setTimeout(() => {
-                    navigation.navigate('Home')
-                }, 3000)
+                navigation.navigate('RegisterVideo', {name: name, gender: gender, orientation: orientation, 
+                    date: date, interest: interest, email: email, uuid: uuid, age: age})
             } catch (e) {
-                setError('Error creating account')
+                setError('Error uploading profile picture')
                 handleShowToastError()
             }
         }
+    }
+
+    const handleSkip = () => {
+        navigation.navigate('RegisterVideo', {name: name, gender: gender, orientation: orientation, 
+            date: date, interest: interest, email: email, uuid: uuid, age: age})
     }
 
     const handlePickImage = async () => {
@@ -135,7 +102,7 @@ export default function RegisterPicture({ navigation }) {
         //choose image in library
         const pickerResult = await ImagePicker.launchImageLibraryAsync({
                 allowsEditing: true,
-                aspect: [3, 4],
+                aspect: [4, 4],
                 quality: 0.1,
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
                 base64: true
@@ -159,6 +126,9 @@ export default function RegisterPicture({ navigation }) {
             <View style={styles.progressionBar}>
                 <View style={styles.progressionBarFull}></View>
             </View>
+            <Pressable onPress={handleSkip}>
+                <Text style={styles.skip}>Skip</Text>
+            </Pressable>
             <View style={styles.title}>
                 <View
                 style={{
@@ -194,7 +164,7 @@ export default function RegisterPicture({ navigation }) {
                 </Pressable>
                 <View>
                     <Button
-                        text="Confirm sign up"
+                        text="Next"
                         background={true}
                         onPress={handleConfirm}
                     />
@@ -210,10 +180,15 @@ const styles = StyleSheet.create({
     main:{
         backgroundColor: '#f3f2f2',
     },
-    container:{
-        height: windowHeight,
-        alignItems: 'center',
+    skip:{
+        fontSize: 18,
+        fontWeight: '400',
+        color: '#AAAAAA',
+        marginTop:25,
+        letterSpacing:1,
         width: '100%',
+        textAlign: 'right',
+        paddingRight: 20,
     },
     title:{
         fontSize: 55,
@@ -281,7 +256,7 @@ const styles = StyleSheet.create({
     progressionBarFull:{
         backgroundColor: '#e84c5c',
         height: 8,
-        width: '100%',
+        width: '84%',
         position: 'absolute',
     },
 })

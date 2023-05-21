@@ -46,6 +46,7 @@ export default function RegisterGender({navigation}) {
                 uuid: uuid, age: age})
         }
     }
+    
     return (
         <ScrollView style={styles.main} softwareKeyboardLayoutMode={'pan'} scrollEnabled={false}>
             <StatusBar style={styles.status}/>
@@ -96,7 +97,7 @@ const styles = StyleSheet.create({
     progressionBarFull:{
         backgroundColor: '#e84c5c',
         height: 8,
-        width: '56%',
+        width: '48%',
         position: 'absolute',
     },
 })

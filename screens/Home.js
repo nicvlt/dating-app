@@ -7,7 +7,6 @@ import Icon from 'react-native-vector-icons/Ionicons'
 export default function Home({ navigation }) {
     return(
         <View style={styles.container}>
-            <StatusBar style={styles.status}/>
                 <Image style={styles.logo} source={require('../assets/logo.png')}></Image>
             <View style={styles.titleContainer}>
                 <Text style={styles.title}>

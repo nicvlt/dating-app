@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     progressionBarFull:{
         backgroundColor: '#e84c5c',
         height: 8,
-        width: '42%',
+        width: '36%',
         position: 'absolute',
     },
     textInput: {

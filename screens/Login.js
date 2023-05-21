@@ -8,6 +8,8 @@ import Toast from 'react-native-toast-message'
 import { doc, getDoc } from "firebase/firestore"; 
 
 
+/// Jumper vers register name si pas de compte
+
 const windowHeight = Dimensions.get('window').height
 
 export default function Login({navigation}) {
@@ -77,11 +79,16 @@ export default function Login({navigation}) {
                 <Textinput placeholder={"Email"} setter={setEmail}/>
                 <Textinput placeholder={"Password"} setter={setPassword} isPassword/>
                 <View style={styles.textContainer}>
+                    <Text style={styles.message}>Don't have an account ?</Text>
+                    <Text onPress={() => {navigation.navigate('RegisterEmail', {email: ''})}} style={styles.register}> Register !</Text>
+                </View>
+                <View style={styles.textContainer}>
                     <Text style={styles.message}>Forget password ?</Text>
                     <Text onPress={() => {navigation.navigate('Forget')}} style={styles.register}> Reset password</Text>
-
-                </View>  
-                <Button text={'Log into account'} background={true} onPress={handleLogin}/>        
+                </View>
+                <View style={styles.button}>
+                <Button text={'Log in'} background={true} onPress={handleLogin}/>  
+                </View>
             </View>
             <Toast/>
         </ScrollView>
@@ -114,18 +121,21 @@ const styles = StyleSheet.create({
     },
     textContainer:{
         flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop:'20%',
+        justifyContent: 'flex-start',
+        width: '75%',
+        marginTop: 5,
     },
     message:{
-        fontSize: 17,
+        fontSize: 12,
         fontWeight: '500',
         color: '#666666',
     },
     register:{
-        fontSize: 17,
+        fontSize: 12,
         fontWeight: '500',
         color: '#e84c5c',
+    },
+    button:{
+        marginTop: '20%',
     }
 })

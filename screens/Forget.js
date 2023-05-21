@@ -82,16 +82,9 @@ export default function Forget({navigation}) {
             <View style={styles.container}>
                 <Text numberOfLines={2} style={styles.title}>Reset your password</Text>
                 <Textinput placeholder={"Email"} setter={setEmail}/>
-                <Button text={'Change password'} background={true} onPress={handleChangePass}/> 
-                
             </View>
-            <View style={styles.textContainer}>
-                <Text style={styles.message}>Don't have an account ?</Text>
-                <Text onPress={() => {navigation.navigate('RegisterEmail')}} style={styles.register}> Register !</Text>
-            </View>
-            <View style={styles.textContainer}>
-                    <Text style={styles.message}>Already have an account ?</Text>
-                    <Text onPress={() => {navigation.navigate('Login')}} style={styles.register}> Log in !</Text>
+            <View style={styles.button}>
+                <Button text={'Change password'} background={true} onPress={handleChangePass}/>
             </View>
             <Toast/>
         </ScrollView>
@@ -117,24 +110,33 @@ const styles = StyleSheet.create({
         fontSize: 50,
         fontWeight: '400',
         color: '#171417',
-        marginTop: '30%',
+        marginTop: '20%',
+        marginBottom: '10%',
         padding:25,
         letterSpacing:1,
         width: '86%',
     },
     textContainer:{
         flexDirection: 'row',
-        justifyContent: 'center',
         alignItems: 'center',
+        marginTop:  5,
+        justifyContent: 'flex-start',
+        width: '75%',
     },
     message:{
-        fontSize: 17,
+        fontSize: 12,
         fontWeight: '500',
         color: '#666666',
     },
     register:{
-        fontSize: 17,
+        fontSize: 12,
         fontWeight: '500',
         color: '#e84c5c',
+    },
+    button:{
+        alignItems: 'center',
+        width: '100%',
+        windowHeight: windowHeight,
+        marginTop: '15%',
     }
 })

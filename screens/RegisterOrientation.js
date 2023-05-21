@@ -3,7 +3,7 @@ import { StyleSheet, View, ScrollView, Text, Dimensions, Image, StatusBar } from
 import Button from '../components/Button'
 import Toast from 'react-native-toast-message'
 import { useRoute } from '@react-navigation/native';
-import {ButtonGroup} from 'react-native-elements';
+import RadioButton from '../components/RadioButton'
 
 
 const windowHeight = Dimensions.get('window').height 
@@ -33,37 +33,21 @@ export default function RegisterOrientation({navigation}) {
         })
     }
 
+    const options = [
+        { value: 'Women' },
+        { value: 'Men' },
+        { value: 'Everyone' },
+      ];
+
     const handleOrientation = () => {
         if (orientation == null || orientation.length == 0) {
             setError('Please select at least 1 option')
             handleShowToast();
         }
-        else if (orientation.length > 3) {
-            setError('Please select up to 3 options')
-            handleShowToast();
-        }
         else {
-            const orientationMap = orientation.map((value) => {
-                if (value == 0) {
-                    return 'Hetero';
-                }
-                else if (value == 1) {
-                    return 'Gay';
-                }
-                else if (value == 2) {
-                    return 'Lesbian';
-                }
-                else if (value == 3) {
-                    return 'Bisexual';
-                }
-                else if (value == 4) {
-                    return 'Other';
-                }
-            })
-
             navigation.navigate('RegisterInterest',  {name: name, gender: gender, 
-                orientation: orientationMap, date: date, email: email, uuid: uuid, age: age});
-            
+                orientation: orientation, date: date, email: email, uuid: uuid, age: age});
+
         }
     }
 
@@ -74,25 +58,8 @@ export default function RegisterOrientation({navigation}) {
                 <View style={styles.progressionBarFull}></View>
             </View>
             <View style={styles.container}>
-                <Text numberOfLines={2} style={styles.title}>Find your Maate :</Text>
-                <ButtonGroup
-                    vertical
-                    buttons={['Hetero', 'Gay', 'Lesbian', 'Bisexual', 'Other']}
-                    selectMultiple
-                    selectedIndexes={orientation}
-                    onPress={(value) => {
-                        setOrientation(value);
-                    }}
-                    containerStyle={styles.buttonGroup}
-                    buttonStyle={styles.button}
-
-                    textStyle={styles.buttonText}
-                    selectedButtonStyle={styles.selectedButton}
-                    selectedTextStyle={styles.selectedButtonText}
-
-                    disabledStyle={styles.disabledSelectedButton}
-                    disabledSelectedTextStyle={styles.disabledButtonText}
-                />
+                <Text adjustsFontSizeToFit={true} numberOfLines={2} style={styles.title}>Who do you want to see ?</Text>
+                <RadioButton data={options} onSelect={(value) => setOrientation(value)} />
             <Button text={'Next'} background={true} onPress={handleOrientation}/> 
             </View>
             <Toast/>
@@ -110,14 +77,14 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     title:{
-        fontSize: 30,
+        fontSize: 50,
         fontWeight: '400',
         color: '#171417',
         marginTop: '10%',
+        marginBottom: '10%',
         padding:25,
         letterSpacing:1,
         width: '86%',
-        textAlign: 'left',
     },
     status:{
         backgroundColor: 'black',
@@ -134,7 +101,7 @@ const styles = StyleSheet.create({
     progressionBarFull:{
         backgroundColor: '#e84c5c',
         height: 8,
-        width: '70%',
+        width: '60%',
         position: 'absolute',
     },
     button:{
@@ -144,7 +111,7 @@ const styles = StyleSheet.create({
     buttonGroup:{
         width: '86%',
         marginTop: 20,
-        height: windowHeight/2,
+        height: windowHeight/3,
         backgroundColor: '#f3f2f2',
     },
     selectedButton:{

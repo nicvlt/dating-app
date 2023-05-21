@@ -1,19 +1,17 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, ScrollView, Text, Dimensions, StatusBar, Pressable } from 'react-native'
 import Button from '../components/Button'
 import Toast from 'react-native-toast-message'
 import { useRoute } from '@react-navigation/native';
 import TagSelect from '../components/TagSelect';
+import { doc, updateDoc, getDoc } from "firebase/firestore";
+import { db, auth } from '../scripts/firebase'
 
 const windowHeight = Dimensions.get('window').height 
 
-export default function RegisterInterest({navigation}) {
-    const route = useRoute();
-    const email = route.params.email;
-    const name = route.params.name;
-    const date = route.params.date;
-    const orientation = route.params.orientation;
-    const gender = route.params.gender;
+export default function EditInterest({navigation}) {
+    const [selected, setSelected] = useState([]);
+    const [error, setError] = useState('');
     const [interest, setInterest] = useState([
         { id: 1, label: 'Soccer' },
         { id: 2, label: 'Gamer' },
@@ -72,14 +70,9 @@ export default function RegisterInterest({navigation}) {
         { id: 55, label: 'Board Games' },
         { id: 56, label: 'Card Games' },
         { id: 57, label: 'Bowling' },
-
     ]);
-    const [selected, setSelected] = useState([]);
-    const [error, setError] = useState('');
-    const uuid = route.params.uuid
-    const age = route.params.age
 
-    const handleShowToast = () => {
+    const handleShowToastError = () => {
         Toast.show({
             type: 'error',
             position: 'top',
@@ -99,25 +92,31 @@ export default function RegisterInterest({navigation}) {
         }
     };
     
-
-    const handleInterest = () => {
+    const handleInterest = async () => {
         // Check if the user selected an option
         if (selected == null || selected.length == 0 || selected.length < 5) {
             setError('Please select 5 options')
-            handleShowToast()
+            handleShowToastError()
         }
         else {
-            navigation.navigate('RegisterPicture', {name: name, gender: gender, orientation: orientation, 
-                date: date, interest: selected, email: email, uuid: uuid, age: age})
+            // Save the data and go to the next screen
+            try {
+                await updateDoc(doc(db, "users", auth.currentUser.email), {
+                    interest: selected,
+                });
+                navigation.goBack()            
+            }
+            catch (e) {
+                setError(e)
+                handleShowToastError()
+                console.log(selected)
+            }
         }
     }
 
     return (
         <ScrollView style={styles.main} softwareKeyboardLayoutMode={'pan'} scrollEnabled={false}>
             <StatusBar style={styles.status}/>
-            <View style={styles.progressionBar}>
-                <View style={styles.progressionBarFull}></View> 
-            </View>
             <View style={styles.container}>
                 <Text style={styles.title}>Hobbies</Text>
                 <Text style={styles.subtitle}>Tell the world what passionates you! You can choose up to 5 hobbies.</Text>
@@ -131,7 +130,7 @@ export default function RegisterInterest({navigation}) {
 
                         onMaxError={() => {
                             setError('You can only select 5 options')
-                            handleShowToast()
+                            handleShowToastError()
                         }}
                         itemStyle={styles.item}
                         itemStyleSelected={styles.itemSelected}
@@ -157,12 +156,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
         zIndex: 100,
+        
     },
     title:{
         fontSize: 55,
         fontWeight: '400',
         color: '#171417',
-        marginTop: '10%',
+        marginTop: 40,
         padding:25,
         letterSpacing:1,
         width: '86%',
@@ -214,18 +214,6 @@ const styles = StyleSheet.create({
     button:{
         borderBottomColor: '#CCCCCC',
         zIndex: 100,
-        marginBottom: 20,
-    },
-    progressionBar:{
-        backgroundColor: '#CCCCCC',
-        height: 8,
-        width: '100%',
-        position: 'absolute',
-    },
-    progressionBarFull:{
-        backgroundColor: '#e84c5c',
-        height: 8,
-        width: '72%',
-        position: 'absolute',
+        marginBottom: 50,
     },
 })
