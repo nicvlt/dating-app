@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { Text, View, StyleSheet, Image, 
-    ActivityIndicator, TouchableWithoutFeedback, Pressable, TouchableOpacity } from 'react-native';
+    ActivityIndicator, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker'
 import { storagePP, ref, auth, db, storageVP, storage } from '../scripts/firebase'
 import { getDownloadURL, uploadBytes, deleteObject} from "firebase/storage";
@@ -231,9 +231,9 @@ export default function Account() {
                     <TouchableOpacity style={styles.photoButton} onPress={handleChangeImage}>
                         <Ionicons name="camera-outline" size={40} color="white" />
                     </TouchableOpacity>
-                    <LinearGradient  
+                    <LinearGradient
                         colors={['rgba(255,255,255,0)', 'rgba(255,255,255,1)']}
-                        end={{ x: 0.5, y: 0.8 }}
+                        end={{ x: 0, y: 0.6 }}
                         style={styles.profileContainer}> 
                         <View style={styles.profileContainerText}>
                             <View style={styles.imageNameAge}>

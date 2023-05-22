@@ -103,7 +103,7 @@ export default function RegisterPicture({ navigation }) {
         const pickerResult = await ImagePicker.launchImageLibraryAsync({
                 allowsEditing: true,
                 aspect: [4, 4],
-                quality: 0.1,
+                quality: 1,
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
                 base64: true
             }

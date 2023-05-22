@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Video } from 'expo-av'
 import { useFocusEffect } from '@react-navigation/native';
 
-
 export default function InfiniteScroll({ uri }){
-    const videoRef = React.useRef(null)
+
+    const videoRef = React.useRef(null);
     
     useFocusEffect(
         React.useCallback(() => {
@@ -18,7 +18,7 @@ export default function InfiniteScroll({ uri }){
         }, [])
     );
     
-    return(
+    return (
         <View style={styles.container}>
             <Video
                 ref={videoRef}

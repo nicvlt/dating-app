@@ -18,6 +18,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MatchScroll from './screens/MatchScroll';
 import { Ionicons } from '@expo/vector-icons';
+import { LogBox } from 'react-native';
+LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();

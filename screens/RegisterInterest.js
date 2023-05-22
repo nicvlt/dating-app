@@ -72,6 +72,9 @@ export default function RegisterInterest({navigation}) {
         { id: 55, label: 'Board Games' },
         { id: 56, label: 'Card Games' },
         { id: 57, label: 'Bowling' },
+        { id: 58, label: 'Party' },
+        { id: 59, label: 'Clubbing' },
+        { id: 60, label: 'Designer' },
 
     ]);
     const [selected, setSelected] = useState([]);

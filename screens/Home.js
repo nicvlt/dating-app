@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         width: 300,
         marginBottom:'10%',
+        marginLeft: 9,
     },
     status:{
         backgroundColor: 'black',

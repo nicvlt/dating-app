@@ -77,9 +77,5 @@ buck-out/
 web-build/
 dist/
 
-index.js
-metro.config.js
-
-
 
 # @end expo-cli

@@ -86,6 +86,7 @@ export default function RegisterVideo({ navigation }){
                 orientation: orientation,
                 interest: interest,
                 age: age,
+                email: email,
             });
             handleShowToastSuccess()
             fetch(video)
