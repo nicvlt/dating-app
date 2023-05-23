@@ -13,7 +13,7 @@ import Toast from 'react-native-toast-message'
 const windowHeight = Dimensions.get('window').height
 if (typeof atob === 'undefined') {
     global.atob = decode;
-} 
+}
 
 export default function RegisterVideo({ navigation }){
     const [video, setVideo] = useState(null)

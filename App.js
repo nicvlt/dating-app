@@ -12,6 +12,7 @@ import RegisterVideo from './screens/RegisterVideo';
 import Forget from './screens/Forget';
 import Account from './screens/Account';
 import Chat from './screens/Chat';
+import ChatRoom from './screens/ChatRoom';
 import EditInterest from './screens/EditInterest';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -33,6 +34,16 @@ function AccountStack() {
   );
 }
 
+function ChatStack() {
+
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Chat" component={Chat} options={{ header: () => null }} />
+
+    </Stack.Navigator>
+  );
+}
+
 function MainTabNavigator() {
   return (
     <Tab.Navigator screenOptions={{ headerShown: false, "tabBarActiveTintColor": "#e84c5c", 
@@ -41,7 +52,7 @@ function MainTabNavigator() {
       <Tab.Screen name="MatchScroll" component={MatchScroll} options={{header: () => null, tabBarShowLabel: false, tabBarIcon: ({ color, focused }) => (
                                 <Ionicons name={focused ? 'home' : 'home-outline'} size={30} color={focused ? color : 'black'} />
                                 )}}  />
-      <Tab.Screen name="Chat" component={Chat} options={{header: () => null, tabBarShowLabel: false, tabBarIcon: ({ color, focused }) => (
+      <Tab.Screen name="ChatStack" component={ChatStack} options={{header: () => null, tabBarShowLabel: false, tabBarIcon: ({ color, focused }) => (
                                 <Ionicons name={focused ? 'chatbox' : 'chatbox-outline'} size={30} color={focused ? color : 'black'} />
                                 ) }} />
       <Tab.Screen name="AccountStack" component={AccountStack} options={{header: () => null, tabBarShowLabel: false, tabBarIcon: ({ color, focused }) => (
@@ -68,6 +79,7 @@ export default function App() {
         <Stack.Screen name="RegisterVideo" component={RegisterVideo} options={{ header: () => null }} />
         <Stack.Screen name="Main" component={MainTabNavigator} options={{ header: () => null }} />
         <Stack.Screen name="EditInterest" component={EditInterest} options={{ header: () => null, tabBarVisible: false }} />
+        <Stack.Screen name="ChatRoom" component={ChatRoom} options={{ header: () => null, tabBarVisible: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

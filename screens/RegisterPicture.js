@@ -13,7 +13,6 @@ if (typeof atob === 'undefined') {
     global.atob = decode;
 }
 
-
 const windowHeight = Dimensions.get('window').height 
 
 export default function RegisterPicture({ navigation }) {
@@ -85,11 +84,6 @@ export default function RegisterPicture({ navigation }) {
         }
     }
 
-    const handleSkip = () => {
-        navigation.navigate('RegisterVideo', {name: name, gender: gender, orientation: orientation, 
-            date: date, interest: interest, email: email, uuid: uuid, age: age})
-    }
-
     const handlePickImage = async () => {
         // Ask the user for the permission to access the camera
         const permissionResult = ImagePicker.requestMediaLibraryPermissionsAsync()
@@ -126,9 +120,6 @@ export default function RegisterPicture({ navigation }) {
             <View style={styles.progressionBar}>
                 <View style={styles.progressionBarFull}></View>
             </View>
-            <Pressable onPress={handleSkip}>
-                <Text style={styles.skip}>Skip</Text>
-            </Pressable>
             <View style={styles.title}>
                 <View
                 style={{
@@ -179,16 +170,6 @@ export default function RegisterPicture({ navigation }) {
 const styles = StyleSheet.create({
     main:{
         backgroundColor: '#f3f2f2',
-    },
-    skip:{
-        fontSize: 18,
-        fontWeight: '400',
-        color: '#AAAAAA',
-        marginTop:25,
-        letterSpacing:1,
-        width: '100%',
-        textAlign: 'right',
-        paddingRight: 20,
     },
     title:{
         fontSize: 55,

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import InfiniteScroll from '../components/InfiniteScroll'
-import { View, TouchableOpacity, StyleSheet, Image, Text } from 'react-native'
+import { View, TouchableOpacity, StyleSheet, Image, Text, ActivityIndicator } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Ionicons } from '@expo/vector-icons'
 import { doc, getDocs, getDoc, collection, query, where, updateDoc, setDoc, deleteDoc } from "firebase/firestore";
@@ -10,19 +10,19 @@ import { useIsFocused, useFocusEffect } from "@react-navigation/native";
 import Toast from 'react-native-toast-message';
 
 export default function MatchScroll({navigation}){
-    const [matchEmail, setMatchEmail] = useState(['test@test.fr'])
+    const [matchEmail, setMatchEmail] = useState([])
     const [videoUri, setVideoUri] = useState(null);
     const [imageUri, setImageUri] = useState(null);
     const [age, setAge] = useState(0);
     const [name, setName] = useState('')
-    const [usersName, setUsersName] = useState(['testname'])
-    const [usersAge, setUsersAge] = useState([18])
+    const [usersName, setUsersName] = useState([])
+    const [usersAge, setUsersAge] = useState([])
     const [error, setError] = useState('')
     const [gender, setGender] = useState('')
     const [interest, setInterest] = useState('')
     const [userOrientation, setUserOrientation] = useState('')
     const [changeInfo, setChangeInfo] = useState(false);
-    const [userTarget, setUserTarget] = useState(['test']);
+    const [userTarget, setUserTarget] = useState(['']);
 
     // We retrieve the data of the current user 
 
@@ -168,7 +168,11 @@ export default function MatchScroll({navigation}){
     }
 
     return(
-        <>
+        <>  
+        {matchEmail.length == 0 ? (
+            <ActivityIndicator size="large" color="#e84c5c" style={styles.loading}/>
+        ) : (
+            <>
             <InfiniteScroll uri={videoUri}/>
             <LinearGradient
                 colors={['rgba(255,255,255,0)', 'rgba(255,255,255,1)']}
@@ -191,6 +195,8 @@ export default function MatchScroll({navigation}){
                     </View>
             </LinearGradient>
             <Toast/>
+            </>
+        ) }
         </>
     )
 }
@@ -255,4 +261,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingHorizontal: 50,
     },
+    loading: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    }
+    
 })

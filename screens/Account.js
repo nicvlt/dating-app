@@ -210,8 +210,7 @@ export default function Account() {
                 <ActivityIndicator
                 animating = {animating}
                 color = '#e84c5c'
-                size = {50}
-                style = {styles.activityIndicator}/>
+                size = {50}/>
                 
                 ) : (
                 <>

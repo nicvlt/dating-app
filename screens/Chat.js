@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, StyleSheet, FlatList, Image, ActivityIndicator } from 'react-native';
-import { useIsFocused, useFocusEffect } from "@react-navigation/native"; 
+import { Text, View, StyleSheet, FlatList, Image, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { useIsFocused, useFocusEffect, useNavigation } from "@react-navigation/native"; 
 import { doc, getDocs, getDoc, collection, query } from "firebase/firestore";
 import {getDownloadURL} from 'firebase/storage'
 import { auth, db, ref, storage } from '../scripts/firebase'
@@ -8,8 +8,8 @@ import { auth, db, ref, storage } from '../scripts/firebase'
 export default function Chat() {
 
     const isFocused = useIsFocused();
+    const navigation = useNavigation();
 
-    const [chats, setChats] = useState([]);
     const [userMatch, setUserMatch] = useState([]);
     const [animating, setAnimating] = useState(true);
 
@@ -56,6 +56,7 @@ export default function Chat() {
                 getDoc(doc(db, "users", docSnap1.data().id1)).then((docSnap2) => {
                   if (docSnap2.exists()) {
                     return getDownloadURL(ref(storage, 'profile_pictures/' + docSnap2.data().email)).then((url) => {
+                      console.log(url);
                       const chatObj = {
                         id: docSnap1.data().id1,
                         name: docSnap2.data().name,
@@ -70,7 +71,6 @@ export default function Chat() {
           });
       
           Promise.all(newChatsPromises).then((newChats) => {
-            setChats((prevChats) => [...prevChats, ...newChats.filter(Boolean)]);
             setAnimating(false);
             setUserMatch((prevUserMatch) => [...prevUserMatch, ...newChats.filter(Boolean)]);
             setUserMatch(prevUserMatch => filterUniqueUsers(prevUserMatch));
@@ -82,23 +82,23 @@ export default function Chat() {
         useFocusEffect(
             React.useCallback(() => {
                 return () => {
-                    setChats([]);
                     setUserMatch([]);
-                    console.log("unfocused");
                 };
             }, [])
         );
-
-
-
+        
+    const handlePress = (name, picture, email) => {
+        navigation.navigate('ChatRoom', { name: name, picture: picture, email: email });
+    };
+    
     const renderItem = ({ item }) => (
+      <TouchableOpacity onPress={() => handlePress(item.name, item.profilePicture, item.id)}>
         <View style={styles.chatItem}>
-            <Image style={styles.profilePicture} source={{ uri: item.profilePicture }} />
-            <Text style={styles.userName}>{item.name}</Text>
+          <Image style={styles.profilePicture} source={{ uri: item.profilePicture }} />
+          <Text style={styles.userName}>{item.name}</Text>
         </View>
+      </TouchableOpacity>
     );
-
-    console.log(userMatch.length);
 
     return (
       <View style={styles.container}>
@@ -145,6 +145,12 @@ const styles = StyleSheet.create({
     },
     userName: {
         fontSize: 18,
+    },
+    activityIndicator: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 80
     }
 
 

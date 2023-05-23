@@ -24,7 +24,7 @@ export default function RegisterInterest({navigation}) {
         { id: 7, label: 'Reading' },
         { id: 8, label: 'Music' },
         { id: 9, label: 'Dancing' },
-        { id: 10, label: 'Streammer' },
+        { id: 10, label: 'Streamer' },
         { id: 11, label: 'Youtuber' },
         { id: 12, label: 'Fitness' },
         { id: 13, label: 'Hiking' },
@@ -75,7 +75,6 @@ export default function RegisterInterest({navigation}) {
         { id: 58, label: 'Party' },
         { id: 59, label: 'Clubbing' },
         { id: 60, label: 'Designer' },
-
     ]);
     const [selected, setSelected] = useState([]);
     const [error, setError] = useState('');
@@ -231,4 +230,20 @@ const styles = StyleSheet.create({
         width: '72%',
         position: 'absolute',
     },
+    interestView:{
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        width: '90%',
+
+    },
+    interest:{
+        backgroundColor: '#e84c5c',
+        borderRadius: 20,
+        padding: 10,
+        margin: 5,
+    },
+    interestText:{
+        color: 'white',
+    }
+
 })
